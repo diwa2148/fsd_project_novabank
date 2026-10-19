@@ -1,0 +1,1 @@
+# fsd_project_novabank
