@@ -39,3 +39,13 @@ For a single-account demonstration, set ALLOWED_REGISTRATION_EMAIL in .env. Leav
 Run npm run build to build the frontend. To verify banking operations, use two registered users on a replica-set database: deposit, withdraw, test an overdraft, transfer by the recipient account number, then verify both balances and transaction records. Transfers to invalid and own account numbers must fail.
 
 GitHub repository: `fsd_project_novabank`
+
+## Deploy on Vercel
+
+1. Import `diwa2148/fsd_project_novabank` as a Vercel project, using the repository root.
+2. Add `MONGODB_URI` with your MongoDB Atlas connection string and `JWT_SECRET` with a random secret of at least 32 characters in the Vercel project’s Environment Variables. Keep `.env` local; never commit it.
+3. In MongoDB Atlas, allow connections from the Vercel deployment according to your Atlas network-access policy. The database must support replica-set transactions.
+4. Deploy. Vercel builds the Vite client to `dist` and serves the Express API through a Node.js Function under `/api`.
+5. If registration should be restricted, set `ALLOWED_REGISTRATION_EMAIL` to a comma-separated allowlist. Leave it unset or blank for open registration. Create an administrator by registering the account and running `npm run admin:promote -- user@example.com` against the deployed database from a trusted local environment.
+
+Vercel’s [Vite deployment guide](https://vercel.com/docs/frameworks/frontend/vite) and [Express deployment guide](https://vercel.com/docs/frameworks/backend/express) cover the platform setup.
