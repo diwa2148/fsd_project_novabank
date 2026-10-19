@@ -1,17 +1,21 @@
 # NovaBank - Mini Banking Simulation System
 
-An educational banking simulation using React, Vite, Express, MongoDB, and Mongoose. It does not connect to real banks or payment networks.
+A banking simulation using React, Vite, Express, MongoDB, and Mongoose. It does not connect to real banks or payment networks.
 
 ## Requirements and setup
-
-- Node.js 20+
-- MongoDB Atlas or MongoDB configured as a replica set (transactions require replica-set support)
 
 1. Copy .env.example to .env.
 2. Set MONGODB_URI and a random JWT_SECRET of at least 32 characters.
 3. Install dependencies with npm install.
 4. If upgrading a database created by the earlier NovaBank build, run npm run db:migrate:cents once. It converts existing decimal balances and transaction values to integer cents and preserves their displayed amounts.
 5. Run npm run dev. The UI is at http://localhost:5173; the API is at http://localhost:4000.
+
+
+## while opening the live link:https://fsd-project-novabank.vercel.app/
+ For admin portal access:use these credentials
+  mail:arjun123@gmail.com
+  password:arjun9876
+ For user portal access: create account with any mail and password 
 
 ## Administrator
 
@@ -20,6 +24,7 @@ Create an account, then promote it with:
     npm run admin:promote -- user@example.com
 
 For a single-account demonstration, set ALLOWED_REGISTRATION_EMAIL in .env. Leave it blank to permit normal registration.
+
 
 ## Functionality
 
@@ -34,11 +39,6 @@ For a single-account demonstration, set ALLOWED_REGISTRATION_EMAIL in .env. Leav
 - Admin customer/account search, transaction monitoring, deposit and withdrawal volume statistics, and confirmed, audited admin initiated transactions
 - Responsive interface with light and dark themes
 
-## Verification
-
-Run npm run build to build the frontend. To verify banking operations, use two registered users on a replica-set database: deposit, withdraw, test an overdraft, transfer by the recipient account number, then verify both balances and transaction records. Transfers to invalid and own account numbers must fail.
-
-GitHub repository: `fsd_project_novabank`
 
 ## Deploy on Vercel
 
