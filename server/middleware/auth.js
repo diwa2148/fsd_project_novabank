@@ -1,0 +1,4 @@
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+export async function auth(req,res,next){try{const token=req.headers.authorization?.replace(/^Bearer\s+/i,'');if(!token)return res.status(401).json({message:'Please sign in to continue.'});const data=jwt.verify(token,process.env.JWT_SECRET||'development_only_change_me');req.user=await User.findById(data.id).select('-password +tokenVersion');if(!req.user||Number(req.user.tokenVersion||0)!==Number(data.version||0))return res.status(401).json({message:'Your session has expired. Please sign in again.'});next();}catch{return res.status(401).json({message:'Your session has expired. Please sign in again.'});}}
+export function admin(req,res,next){if(req.user?.role!=='admin')return res.status(403).json({message:'Administrator access required.'});next();}

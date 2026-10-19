@@ -1,0 +1,10 @@
+import {Router} from 'express';
+import {auth} from '../middleware/auth.js';
+import {wrap} from '../utils/async.js';
+import SavedRecipient from '../models/SavedRecipient.js';
+import Account from '../models/Account.js';
+const r=Router();r.use(auth);
+r.get('/',wrap(async(req,res)=>res.json({items:await SavedRecipient.find({owner:req.user._id}).populate({path:'recipientAccount',select:'number accountType',populate:{path:'user',select:'name'}}).sort({createdAt:-1})})));
+r.post('/',wrap(async(req,res)=>{const number=typeof req.body.accountNumber==='string'?req.body.accountNumber.trim().toUpperCase():'';if(!number)return res.status(400).json({message:'Enter a recipient account number.'});const account=await Account.findOne({number}).populate('user','name');if(!account)return res.status(404).json({message:'No NovaBank account found with that number.'});if(account.status!=='active')return res.status(400).json({message:'This recipient account is not active.'});if(String(account.user._id)===String(req.user._id))return res.status(400).json({message:'You cannot save your own account as a recipient.'});try{const item=await SavedRecipient.create({owner:req.user._id,recipientAccount:account._id});await item.populate({path:'recipientAccount',select:'number accountType',populate:{path:'user',select:'name'}});res.status(201).json({recipient:item});}catch(e){if(e.code===11000)return res.status(409).json({message:'This recipient is already saved.'});throw e;}}));
+r.delete('/:id',wrap(async(req,res)=>{const item=await SavedRecipient.findOneAndDelete({_id:req.params.id,owner:req.user._id});if(!item)return res.status(404).json({message:'Saved recipient not found.'});res.json({success:true});}));
+export default r;
