@@ -1,4 +1,4 @@
-# NovaBank — Mini Banking Simulation System
+# NovaBank - Mini Banking Simulation System
 
 An educational banking simulation using React, Vite, Express, MongoDB, and Mongoose. It does not connect to real banks or payment networks.
 
@@ -37,3 +37,5 @@ For a single-account demonstration, set ALLOWED_REGISTRATION_EMAIL in .env. Leav
 ## Verification
 
 Run npm run build to build the frontend. To verify banking operations, use two registered users on a replica-set database: deposit, withdraw, test an overdraft, transfer by the recipient account number, then verify both balances and transaction records. Transfers to invalid and own account numbers must fail.
+
+GitHub repository: `fsd_project_novabank`
